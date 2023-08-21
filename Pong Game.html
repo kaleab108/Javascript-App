@@ -5,7 +5,7 @@
     <title>Pong Game</title>
     <style>
         body {
-            background-color: #222;
+            background-color: #f5efef;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -14,13 +14,13 @@
         }
 
         canvas {
-            background-color: #111;
+            background-color: #1b1b1b;
         }
 
         h1 {
             margin-top: 100px;
             margin-right: 50px;
-            color: white;
+            color: blue;
         }
     </style>
     <script src="App.js"></script>
@@ -28,194 +28,200 @@
 </head>
 
 <body>
-    <div>
-        <h1>
-            Pong Game
-        </h1>
-    </div>
-    <canvas id="gameCanvas" width="500" height="350"></canvas>
-    <script>
-        // ... Previous code ...
+    <main>
+        <div>
+            <h1>
+                Pong Game
+            </h1>
+        </div>
+        <canvas id="gameCanvas" width="500" height="350"></canvas>
 
-        // Computer AI for the right paddle
-        function computerAI() {
-            const centerY = rightPaddleY + paddleHeight / 2;
-            if (centerY < ballY - paddleAIReactionTime / 2) {
-                rightPaddleY += paddleSpeed;
-            } else if (centerY > ballY + paddleAIReactionTime / 2) {
-                rightPaddleY -= paddleSpeed;
-            }
-        }
 
-        // Update game logic
-        function update() {
+        <script>
             // ... Previous code ...
-
-            // Ball speed increase
-            increaseBallSpeed();
 
             // Computer AI for the right paddle
             function computerAI() {
                 const centerY = rightPaddleY + paddleHeight / 2;
-
-                // Adjust the AI reaction speed by changing this value
-                const aiReactionSpeed = 0.1;
-
-                // Make the AI react slower for a more human-like behavior
-                if (ballY > centerY + aiReactionSpeed * canvas.height) {
+                if (centerY < ballY - paddleAIReactionTime / 2) {
                     rightPaddleY += paddleSpeed;
-                } else if (ballY < centerY - aiReactionSpeed * canvas.height) {
+                } else if (centerY > ballY + paddleAIReactionTime / 2) {
                     rightPaddleY -= paddleSpeed;
                 }
             }
-        }
 
-        // Draw everything
-        function draw() {
-            // Clear canvas and draw background
-            drawBackground();
+            // Update game logic
+            function update() {
+                // ... Previous code ...
 
-            // Draw paddles
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-            ctx.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+                // Ball speed increase
+                increaseBallSpeed();
 
-            // Draw ball trail
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballSize + 5, 0, Math.PI * 2);
-            ctx.fill();
+                // Computer AI for the right paddle
+                function computerAI() {
+                    const centerY = rightPaddleY + paddleHeight / 2;
 
-            // Draw ball
-            ctx.fillStyle = "white";
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
-            ctx.fill();
+                    // Adjust the AI reaction speed by changing this value
+                    const aiReactionSpeed = 0.5;
 
-            // Display score
-            displayScore();
-        }
-
-        // ... Previous code ...
-
-
-
-        // Game variables
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
-        let leftPaddleY = canvas.height / 2 - 50;
-        let rightPaddleY = canvas.height / 2 - 50;
-        let ballX = canvas.width / 2;
-        let ballY = canvas.height / 2;
-        let ballSpeedX = 5;
-        let ballSpeedY = 5;
-        const paddleWidth = 10;
-        const paddleHeight = 100;
-        const ballSize = 10;
-        const winningScore = 5;
-        let leftScore = 0;
-        let rightScore = 0;
-
-        // Event listeners
-        canvas.addEventListener("mousemove", (e) => {
-            const mouseY = e.clientY - canvas.getBoundingClientRect().top;
-            leftPaddleY = mouseY - paddleHeight / 2;
-        });
-
-        // Reset the ball and scores
-        function reset() {
-            ballX = canvas.width / 2;
-            ballY = canvas.height / 2;
-            ballSpeedX = -ballSpeedX;
-            leftScore = 0;
-            rightScore = 0;
-        }
-
-        // Update game logic
-        function update() {
-            // Ball movement
-            ballX += ballSpeedX;
-            ballY += ballSpeedY;
-
-            // Ball collision with top and bottom walls
-            if (ballY < 0 || ballY > canvas.height) {
-                ballSpeedY = -ballSpeedY;
-            }
-
-            // Ball collision with paddles
-            if (
-                ballX < paddleWidth &&
-                ballY > leftPaddleY &&
-                ballY < leftPaddleY + paddleHeight
-            ) {
-                ballSpeedX = -ballSpeedX;
-            }
-
-            if (
-                ballX > canvas.width - paddleWidth &&
-                ballY > rightPaddleY &&
-                ballY < rightPaddleY + paddleHeight
-            ) {
-                ballSpeedX = -ballSpeedX;
-            }
-
-            // Ball out of bounds
-            if (ballX < 0) {
-                rightScore++;
-                if (rightScore === winningScore) {
-                    alert("Right player wins!");
-                    reset();
-                } else {
-                    ballSpeedX = -ballSpeedX;
+                    // Make the AI react slower for a more human-like behavior
+                    if (ballY > centerY + aiReactionSpeed * canvas.height) {
+                        rightPaddleY += paddleSpeed;
+                    } else if (ballY < centerY - aiReactionSpeed * canvas.height) {
+                        rightPaddleY -= paddleSpeed;
+                    }
                 }
             }
-            if (ballX > canvas.width) {
-                leftScore++;
-                if (leftScore === winningScore) {
-                    alert("Left player wins!");
-                    reset();
-                } else {
+
+            // Draw everything
+            function draw() {
+                // Clear canvas and draw background
+                drawBackground();
+
+                // Draw paddles
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+                ctx.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
+
+                // Draw ball trail
+                ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+                ctx.beginPath();
+                ctx.arc(ballX, ballY, ballSize + 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw ball
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Display score
+                displayScore();
+            }
+
+            // ... Previous code ...
+
+
+
+            // Game variables
+            const canvas = document.getElementById("gameCanvas");
+            const ctx = canvas.getContext("2d");
+            let leftPaddleY = canvas.height / 2 - 50;
+            let rightPaddleY = canvas.height / 2 - 50;
+            let ballX = canvas.width / 2;
+            let ballY = canvas.height / 2;
+            let ballSpeedX = 5;
+            let ballSpeedY = 5;
+            const paddleWidth = 10;
+            const paddleHeight = 100;
+            const ballSize = 10;
+            const winningScore = 11;
+            let leftScore = 0;
+            let rightScore = 0;
+
+            // Event listeners
+            canvas.addEventListener("mousemove", (e) => {
+                const mouseY = e.clientY - canvas.getBoundingClientRect().top;
+                leftPaddleY = mouseY - paddleHeight / 2;
+            });
+
+            // Reset the ball and scores
+            function reset() {
+                ballX = canvas.width / 2;
+                ballY = canvas.height / 2;
+                ballSpeedX = -ballSpeedX;
+                leftScore = 0;
+                rightScore = 0;
+            }
+
+            // Update game logic
+            function update() {
+                // Ball movement
+                ballX += ballSpeedX;
+                ballY += ballSpeedY;
+
+                // Ball collision with top and bottom walls
+                if (ballY < 0 || ballY > canvas.height) {
+                    ballSpeedY = -ballSpeedY;
+                }
+
+                // Ball collision with paddles
+                if (
+                    ballX < paddleWidth &&
+                    ballY > leftPaddleY &&
+                    ballY < leftPaddleY + paddleHeight
+                ) {
                     ballSpeedX = -ballSpeedX;
                 }
+
+                if (
+                    ballX > canvas.width - paddleWidth &&
+                    ballY > rightPaddleY &&
+                    ballY < rightPaddleY + paddleHeight
+                ) {
+                    ballSpeedX = -ballSpeedX;
+                }
+
+                // Ball out of bounds
+                if (ballX < 0) {
+                    rightScore++;
+                    if (rightScore === winningScore) {
+                        alert("Right player wins!");
+                        reset();
+                    } else {
+                        ballSpeedX = -ballSpeedX;
+                    }
+                }
+                if (ballX > canvas.width) {
+                    leftScore++;
+                    if (leftScore === winningScore) {
+                        alert("Left player wins!");
+                        reset();
+                    } else {
+                        ballSpeedX = -ballSpeedX;
+                    }
+                }
             }
-        }
 
-        // Draw everything
-        function draw() {
-            // Clear canvas
-            ctx.fillStyle = "black";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Draw everything
+            function draw() {
+                // Clear canvas
+                ctx.fillStyle = "black";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // Draw paddles
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
-            ctx.fillRect(
-                canvas.width - paddleWidth,
-                rightPaddleY,
-                paddleWidth,
-                paddleHeight
-            );
+                // Draw paddles
+                ctx.fillStyle = "red";
+                ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+                ctx.fillRect(
+                    canvas.width - paddleWidth,
+                    rightPaddleY,
+                    paddleWidth,
+                    paddleHeight
+                );
 
-            // Draw ball
-            ctx.beginPath();
-            ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
-            ctx.fill();
+                // Draw ball
+                ctx.beginPath();
+                ctx.arc(ballX, ballY, ballSize, 0, Math.PI * 2);
+                ctx.fill();
 
-            // Draw scores
-            ctx.fillText("Left: " + leftScore, 100, 100);
-            ctx.fillText("Right: " + rightScore, canvas.width - 100, 100);
-        }
+                // Draw scores
+                ctx.fillText("Left: " + leftScore, 100, 100);
+                ctx.fillText("Right: " + rightScore, canvas.width - 100, 100);
+            }
 
-        // Game loop
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
 
-        // Start the game loop
-        gameLoop();
-    </script>
+            // Game loop
+            function gameLoop() {
+                update();
+                computerAI(); // Call the AI function before updating paddle position
+                draw();
+                requestAnimationFrame(gameLoop);
+            }
+
+            // Start the game loop
+            gameLoop();
+        </script>
+    </main>
 </body>
 
 </html>
